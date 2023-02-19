@@ -148,3 +148,7 @@ pipeline {
 ![Step 20:](./documentation/34.png)
 ![Step 20.2:](./documentation/35.png)
 ---
+
+## Step 21: As you can see in your dashboard, both of your items are in good status.
+![Step 21:](./documentation/37.png)
+---
