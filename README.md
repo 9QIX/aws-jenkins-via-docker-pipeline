@@ -81,15 +81,32 @@ We will achieve exactly that by deploying Jenkins inside an AWS EC2 instance but
 ```bash
 pipeline {
     agent any
+
     stages {
-        stage('Build') {
+        stage('Clone Repo') {
             steps {
-                // Get some code from a GitHub repository
-                git url: 'https://github.com/naiveskill/devops.git', branch: 'main'
-                // Change file permisson
-                sh "chmod +x -R ./jenkins"
-                // Run shell script
-                sh "./jenkins/script/scripted_pipeline_ex_2.sh"
+                echo '[INFO] Cloning Repository'
+                sh 'git clone --depth 1 --single-branch https://github.com/WonderCMS/wondercms.git'
+                sh 'ls wondercms'
+            }
+        }
+        stage('Provision AWS Instance') {
+            steps {
+                echo '[INFO] Deploying to AWS'
+                // sh 'scp -r web_app user@ip_add:/var/www/html'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo '[INFO] Sending Notifications'
+                // sh 'sh notif.sh'
+            }
+        }
+        stage('Notification') {
+            steps {
+                echo '[INFO] Sending Notifications'
+                slackSend channel: '#random', message: 'test', teamDomain: 'randomresearchinc.slack.com', tokenCredentialId: 'slack'
+                cleanWs()
             }
         }
     }
