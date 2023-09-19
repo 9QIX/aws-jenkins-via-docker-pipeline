@@ -1,4 +1,4 @@
-# How To Setup Jenkins via Docker and Connecting it to GitHub by Creating a Pipeline (AWS EC2)
+# How To Setup Jenkins via Docker and Connect it to GitHub by Creating a Pipeline (AWS EC2)
 ![Step 0:](./documentation/xtra/infra.png)
 If you are learning Jenkins just like me, you will find that it is preferable if Jenkins is running on a server that can be accessed by other applications if need be.
 We will achieve exactly that by deploying Jenkins inside an AWS EC2 instance but inside a docker container, the reason I use docker is that it is an optimal way of keeping the environment isolated but also because I am learning docker at the same time.
@@ -14,7 +14,7 @@ We will achieve exactly that by deploying Jenkins inside an AWS EC2 instance but
 ![Step 2:](./documentation/2.png)
 ---
 
-## Step 3: Start Docker services and check its status.
+## Step 3: Start Docker services and check their status.
 ```bash
 > sudo service docker start
 > sudo service docker status
@@ -22,13 +22,13 @@ We will achieve exactly that by deploying Jenkins inside an AWS EC2 instance but
 ![Step 3:](./documentation/3.png)
 ---
 
-## Step 4: Grant Docker sudo privilages so it won't ask everytime you call it.
+## Step 4: Grant Docker sudo privileges so it won't ask every time you call it.
 ```bash
 > sudo usermod -a -G docker ec2-user
 ```
 ![Step 4:](./documentation/4.png)
 
-#### Note: Remember to re-login to your instance after executing command.
+#### Note: Remember to re-login to your instance after executing the command.
 ---
 
 ## Step 5: Run Jenkins via Docker.
@@ -45,7 +45,7 @@ We will achieve exactly that by deploying Jenkins inside an AWS EC2 instance but
 ![Step 6:](./documentation/7.png)
 ---
 
-## Step 7: As we can see from step 6, Jenkins is locked. We can capture its key by accessing the Docker logs of Jenkins.
+## Step 7: As we can see from Step 6, Jenkins is locked. We can capture its key by accessing the Docker logs of Jenkins.
 ```bash
 > docker container ls
 > docker logs -f "container-id"
@@ -54,16 +54,16 @@ We will achieve exactly that by deploying Jenkins inside an AWS EC2 instance but
 ![Step 7.2:](./documentation/9.png)
 ---
 
-## Step 8: After unlocking Jenkins, we are greeted with two opetions: Install suggested plugins and Select plugins to install. For our case, we will choose Install suggested plugins. 
+## Step 8: After unlocking Jenkins, we are greeted with two options: Install suggested plugins and Select plugins to install. For our case, we will choose Install the suggested plugins. 
 ![Step 8:](./documentation/10.png)
 ![Step 8.2:](./documentation/11.png)
 ---
 
-## Step 9: After installing suggested plugins, you are given a choice to Create First Admin user or to Skip and continue as admin. It is recommended that you Create First Admin User.
+## Step 9: After installing the suggested plugins, you are given a choice to Create a First Admin user or to Skip and continue as admin. It is recommended that you Create First Admin User.
 ![Step 9:](./documentation/12.png)
 ---
 
-## Step 10: After Creating First Admin User, you are given the Jenkins URL of your Instance Configuration. It is advisable that you save it.
+## Step 10: After Creating the First Admin User, you are given the Jenkins URL of your Instance Configuration. It is advisable that you save it.
 ![Step 10:](./documentation/14.png)
 ---
 
@@ -72,7 +72,7 @@ We will achieve exactly that by deploying Jenkins inside an AWS EC2 instance but
 ![Step 11.2:](./documentation/16.png)
 ---
 
-## Now, let us create a Pipeline and connect it GitHub.
+## Now, let us create a Pipeline and connect it to GitHub.
 
 ## Step 12: From your Dashboard, select New Item and create a new Pipeline.
 ![Step 12:](./documentation/17.png)
@@ -144,7 +144,7 @@ pipeline {
 ![Step 16:](./documentation/23.png)
 ---
 
-## Step 17: Now click on personal access tokens > Generate new token. Provide necessary as per your need and click on Generate token. A token will be generated, which you can use for authenticating the github.
+## Step 17: Now click on personal access tokens > Generate new token. Provide necessary as per your need and click on Generate token. A token will be generated, which you can use for authenticating the GitHub.
 ![Step 17:](./documentation/24.png)
 ![Step 17.2:](./documentation/25.png)
 ![Step 17.3:](./documentation/26.png)
@@ -157,7 +157,7 @@ pipeline {
 ![Step 18.3:](./documentation/30.png)
 ---
 
-## Step 19: Provide username and github secrets in place of password and then click on the CREATE button.
+## Step 19: Provide username and GitHub secrets in place of password and then click on the CREATE button.
 ![Step 19:](./documentation/32.png)
 ![Step 19.2:](./documentation/31.png)
 ---
