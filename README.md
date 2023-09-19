@@ -1,84 +1,128 @@
 # Configuring Jenkins with Docker and GitHub Integration via AWS EC2 for Pipeline Creation
-![Step 0:](./documentation/xtra/infra.png)
-If you are learning Jenkins just like me, you will find that it is preferable if Jenkins is running on a server that can be accessed by other applications if need be.
-We will achieve exactly that by deploying Jenkins inside an AWS EC2 instance but inside a docker container, the reason I use docker is that it is an optimal way of keeping the environment isolated but also because I am learning docker at the same time.
 
-## Step 1: Connect to your instance via SSH using the generated key.
-![Step 1:](./documentation/1.png)
+![Infrastructure](./documentation/xtra/infra.png)
+
+If you are new to Jenkins, you may find it beneficial to run Jenkins on a server accessible to other applications. We will deploy Jenkins inside an AWS EC2 instance, encapsulated in a Docker container. Using Docker is ideal as it provides an isolated environment, and it aligns with learning Docker alongside Jenkins.
+
+## Step 1: Connect to Your EC2 Instance via SSH
+
+![Connect to EC2](./documentation/1.png)
+
 ---
 
-## Step 2: Install Docker.
+## Step 2: Install Docker
+
 ```bash
 > sudo yum install -y docker
 ```
-![Step 2:](./documentation/2.png)
+
+![Install Docker](./documentation/2.png)
+
 ---
 
-## Step 3: Start Docker services and check their status.
+## Step 3: Start Docker Services and Check Status
+
 ```bash
 > sudo service docker start
 > sudo service docker status
 ```
-![Step 3:](./documentation/3.png)
+
+![Start Docker](./documentation/3.png)
+
 ---
 
-## Step 4: Grant Docker sudo privileges so it won't ask every time you call it.
+## Step 4: Grant Docker Sudo Privileges
+
 ```bash
 > sudo usermod -a -G docker ec2-user
 ```
-![Step 4:](./documentation/4.png)
 
-#### Note: Remember to re-login to your instance after executing the command.
+![Grant Docker Privileges](./documentation/4.png)
+
+**Note:** Remember to re-login to your instance after executing the command.
+
 ---
 
-## Step 5: Run Jenkins via Docker.
+## Step 5: Run Jenkins via Docker
+
 ```bash
 > docker run -d --name jenkins -p 8080:8080 -p 50000:50000 -v /var/jenkins_home jenkins/jenkins:lts
 ```
-![Step 5:](./documentation/5.png)
+
+![Run Jenkins](./documentation/5.png)
+
 ---
 
-## Step 6: Check if Jenkins is up by accessing the public IPv4 address of your instance.
-```bash
-> "ipv4-public-ip":8080
-```
-![Step 6:](./documentation/7.png)
+## Step 6: Check Jenkins Status
+
+Access Jenkins by using your instance's public IPv4 address and port 8080.
+
+![Access Jenkins](./documentation/7.png)
+
 ---
 
-## Step 7: As we can see from Step 6, Jenkins is locked. We can capture its key by accessing the Docker logs of Jenkins.
+## Step 7: Unlock Jenkins
+
+Jenkins is locked initially. Retrieve the unlock key from the Docker logs of the Jenkins container.
+
 ```bash
 > docker container ls
 > docker logs -f "container-id"
 ```
-![Step 7:](./documentation/8.png)
-![Step 7.2:](./documentation/9.png)
+
+![Unlock Jenkins](./documentation/8.png)
+![Unlock Jenkins](./documentation/9.png)
+
 ---
 
-## Step 8: After unlocking Jenkins, we are greeted with two options: Install suggested plugins and Select plugins to install. For our case, we will choose Install the suggested plugins. 
-![Step 8:](./documentation/10.png)
-![Step 8.2:](./documentation/11.png)
+## Step 8: Install Suggested Plugins
+
+After unlocking Jenkins, choose to install the suggested plugins.
+
+![Install Plugins](./documentation/10.png)
+![Install Plugins](./documentation/11.png)
+
 ---
 
-## Step 9: After installing the suggested plugins, you are given a choice to Create a First Admin user or to Skip and continue as admin. It is recommended that you Create First Admin User.
-![Step 9:](./documentation/12.png)
+## Step 9: Create First Admin User
+
+Create the first admin user.
+
+![Create Admin User](./documentation/12.png)
+
 ---
 
-## Step 10: After Creating the First Admin User, you are given the Jenkins URL of your Instance Configuration. It is advisable that you save it.
-![Step 10:](./documentation/14.png)
+## Step 10: Save Jenkins URL
+
+After creating the admin user, save the Jenkins URL provided for instance configuration.
+
+![Save Jenkins URL](./documentation/14.png)
+
 ---
 
-## Step 11: Jenkins is now ready to use!
-![Step 11:](./documentation/15.png)
-![Step 11.2:](./documentation/16.png)
+## Step 11: Jenkins is Ready to Use
+
+Jenkins is now ready for use.
+
+![Jenkins Ready](./documentation/15.png)
+![Jenkins Ready](./documentation/16.png)
+
 ---
 
-## Now, let us create a Pipeline and connect it to GitHub.
+## Create a Pipeline and Connect to GitHub
 
-## Step 12: From your Dashboard, select New Item and create a new Pipeline.
-![Step 12:](./documentation/17.png)
+## Step 12: Create a New Pipeline
+
+From your Jenkins dashboard, select "New Item" to create a new pipeline.
+
+![Create Pipeline](./documentation/17.png)
+
 ---
 
-## Step 13: Now go to the pipeline session, paste the code below, and click on the Save button.
+## Step 13: Define Pipeline Script
+
+In the pipeline section, paste the provided script and click "Save."
+
 ```bash
 pipeline {
     agent any
@@ -113,16 +157,26 @@ pipeline {
     }
 }
 ```
-![Step 13:](./documentation/18.png)
+
+![Define Pipeline Script](./documentation/18.png)
+
 ---
 
-## Step 14: After saving, select Build Now and wait for it to finish building.
-![Step 14:](./documentation/19.png)
-![Step 14.2:](./documentation/20.png)
+## Step 14: Build the Pipeline
+
+After saving the pipeline, select "Build Now" and wait for it to finish building.
+
+![Build Pipeline](./documentation/19.png)
+![Build Pipeline](./documentation/20.png)
+
 ---
 
-## Step 15: Now, let us try Jenkins pipeline github with credentials.
-![Step 15:](./documentation/21.png)
+## Jenkins Pipeline with GitHub Credentials
+
+## Step 15: Define Pipeline Script with GitHub Credentials
+
+Use this script to build your pipeline using GitHub credentials:
+
 ```bash
 pipeline {
     agent any
@@ -137,36 +191,60 @@ pipeline {
     }
 }
 ```
-![Step 15.2:](./documentation/22.png)
+
+![GitHub Credentials](./documentation/21.png)
+
 ---
 
-## Step 16: To create a github token, log in to the github account and go to setting. Now click on the developer setting.
-![Step 16:](./documentation/23.png)
+## Step 16: Create a GitHub Token
+
+To create a GitHub token, log in to your GitHub account, go to settings, and click on "Developer settings."
+
+![Create GitHub Token](./documentation/23.png)
+
 ---
 
-## Step 17: Now click on personal access tokens > Generate new token. Provide necessary as per your need and click on Generate token. A token will be generated, which you can use for authenticating the GitHub.
-![Step 17:](./documentation/24.png)
-![Step 17.2:](./documentation/25.png)
-![Step 17.3:](./documentation/26.png)
+## Step 17: Generate a Personal Access Token
+
+Navigate to "Personal access tokens," click "Generate new token," provide necessary permissions, and click "Generate token" to obtain the token for GitHub authentication.
+
+![Generate Token](./documentation/24.png)
+![Generate Token](./documentation/25.png)
+![Generate Token](./documentation/26.png)
+
 ---
 
-## Step 18: Now go to Jenkins URL and goto Manage Jenkins > Manage Credentials > System > Global credentials (unrestricted) > Add Credentials
-![Step 18:](./documentation/27.png)
-![Step 18.2:](./documentation/28.png)
-![Step 18.3:](./documentation/29.png)
-![Step 18.3:](./documentation/30.png)
+## Step 18: Add GitHub Credentials in Jenkins
+
+In Jenkins, go to "Manage Jenkins" > "Manage Credentials" > "System" > "Global credentials (unrestricted)" > "Add Credentials."
+
+![Add GitHub Credentials](./documentation/27.png)
+![Add GitHub Credentials](./documentation/28.png)
+![Add GitHub Credentials](./documentation/29.png)
+![Add GitHub Credentials](./documentation/30.png)
+
 ---
 
-## Step 19: Provide username and GitHub secrets in place of password and then click on the CREATE button.
-![Step 19:](./documentation/32.png)
-![Step 19.2:](./documentation/31.png)
+## Step 19: Provide Credentials
+
+Provide your GitHub username and the generated GitHub token in place of the password, then click "CREATE."
+
+![Provide Credentials](./documentation/32.png)
+![Provide Credentials](./documentation/31.png)
+
 ---
 
-## Step 20: Go back to your Jenkins Pipeline with credentials and build it.
-![Step 20:](./documentation/34.png)
-![Step 20.2:](./documentation/35.png)
+## Step 20: Build the Pipeline with GitHub Credentials
+
+Return to your Jenkins Pipeline with GitHub credentials and build it.
+
+![Build Pipeline](./documentation/34.png)
+![Build Pipeline](./documentation/35.png)
+
 ---
 
-## Step 21: As you can see in your dashboard, both of your items are in good status.
-![Step 21:](./documentation/37.png)
----
+## Step 21: Verify Pipeline Status
+
+Check the status of both items on your Jenkins dashboard.
+
+![Verify Pipeline](./documentation/37.png)
